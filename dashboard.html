@@ -1,0 +1,2576 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CalorieDetect Pro Dashboard - Track your nutrition, analyze food, and manage your fitness goals with AI-powered tools."
+    />
+    <meta
+      name="keywords"
+      content="nutrition dashboard, calorie tracker, food analyzer, fitness goals, health tracking"
+    />
+    <meta name="author" content="CalorieDetect Pro" />
+    <title>CalorieDetect Pro - Dashboard</title>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      /* =========================================
+         1. CSS VARIABLES & RESET (Revamped Theme)
+         ========================================= */
+      :root {
+        /* Palette from Intro Page */
+        --primary: #2ecc71; /* Vibrant Green */
+        --primary-dark: #27ae60; /* Darker Green */
+        --secondary: #2c3e50; /* Dark Blue-Grey (Headers/Footer) */
+        --accent: #e67e22; /* Orange (Highlights) */
+        --yellow: #f1c40f; /* Stars/Warnings */
+        --danger: #e74c3c; /* Errors/Delete */
+
+        --text-dark: #333333;
+        --text-light: #666666;
+        --bg-body: #f8f9fa; /* Clean Light Gray Background */
+        --bg-card: #ffffff;
+
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        --radius: 16px;
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        background-color: var(--bg-body);
+        color: var(--text-dark);
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      main {
+        flex-grow: 1;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        transition: var(--transition);
+      }
+      ul {
+        list-style: none;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* =========================================
+         2. COMPONENTS & TYPOGRAPHY
+         ========================================= */
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: var(--secondary);
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+      h1 {
+        font-size: 3.5rem;
+        line-height: 1.1;
+      }
+      h2 {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      /* Buttons (Pro Style) */
+      .btn {
+        display: inline-block;
+        padding: 12px 28px;
+        border-radius: 50px; /* Pill shape like Intro */
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        text-align: center;
+        transition: var(--transition);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn-primary {
+        background-color: var(--primary);
+        color: white;
+      }
+      .btn-primary:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background-color: var(--secondary);
+        color: white;
+      }
+      .btn-secondary:hover {
+        background-color: #34495e;
+        transform: translateY(-2px);
+      }
+
+      .btn-danger {
+        background-color: var(--danger);
+        color: white;
+      }
+      .btn-danger:hover {
+        background-color: #c0392b;
+      }
+
+      .btn-small {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+
+      .icon-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+
+      /* Form Elements (Clean Look) */
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 15px;
+        border: 1px solid #e1e1e1;
+        border-radius: 10px;
+        font-size: 1rem;
+        background: var(--bg-card);
+        transition: var(--transition);
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+      }
+
+      /* =========================================
+         3. NAVBAR (Glassmorphism)
+         ========================================= */
+      .navbar {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 15px 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .nav-logo {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .nav-logo span {
+        color: var(--secondary);
+      }
+
+      .nav-menu {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+      }
+
+      .nav-link {
+        font-weight: 500;
+        color: var(--text-dark);
+        font-size: 0.95rem;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--primary);
+      }
+
+      /* Logout Button Style */
+      #logout-btn {
+        color: var(--danger);
+        font-weight: 600;
+        border: 1px solid var(--danger);
+        padding: 6px 15px;
+        border-radius: 20px;
+        transition: all 0.3s;
+      }
+      #logout-btn:hover {
+        background: var(--danger);
+        color: white;
+      }
+
+      /* =========================================
+         4. SECTIONS & CARDS
+         ========================================= */
+      .page-section {
+        padding: 80px 0;
+      }
+
+      /* Card Styling (Matches Intro) */
+      .detector-card,
+      .goal-card,
+      .contact-form,
+      .modal-content,
+      .category-items-container {
+        background: var(--bg-card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 40px;
+        border: 1px solid rgba(0, 0, 0, 0.03);
+      }
+
+      /* =========================================
+         5. HERO SECTION
+         ========================================= */
+      .hero-section {
+        min-height: 70vh; /* Slightly smaller for dashboard feel */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: linear-gradient(
+            135deg,
+            rgba(46, 204, 113, 0.9),
+            rgba(44, 62, 80, 0.8)
+          ),
+          url("https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1600")
+            center/cover;
+        color: white;
+        margin-bottom: 40px;
+        border-radius: 0 0 30px 30px; /* Modern curved bottom */
+      }
+
+      .hero-section h1 {
+        color: white;
+        margin-bottom: 20px;
+      }
+      .hero-section p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+      }
+
+      /* =========================================
+         6. DETECTOR SECTION
+         ========================================= */
+      .detector-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+
+      /* Image Upload Area */
+      #image-upload-area {
+        border: 2px dashed #ddd;
+        background: #fafafa;
+        border-radius: 12px;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        transition: var(--transition);
+      }
+      #image-upload-area:hover {
+        border-color: var(--primary);
+        background: #f0fff4;
+      }
+      #image-upload-area i {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 15px;
+      }
+
+      #image-preview {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+
+      .divider {
+        text-align: center;
+        margin: 25px 0;
+        color: #999;
+        font-weight: 600;
+        font-size: 0.9rem;
+        position: relative;
+      }
+      .divider::before,
+      .divider::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 45%;
+        height: 1px;
+        background: #eee;
+      }
+      .divider::before {
+        left: 0;
+      }
+      .divider::after {
+        right: 0;
+      }
+
+      /* Results */
+      .result-card {
+        animation: fadeIn 0.5s ease;
+      }
+
+      .result-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }
+      .result-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary);
+      }
+
+      .nutrient-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+      .nutrient-item {
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        color: white;
+        transition: transform 0.2s;
+        cursor: pointer;
+      }
+      .nutrient-item:hover {
+        transform: scale(1.05);
+      }
+
+      .nutrient-item.calories {
+        background: linear-gradient(45deg, #f1c40f, #f39c12);
+      }
+      .nutrient-item.protein {
+        background: linear-gradient(45deg, #3498db, #2980b9);
+      }
+      .nutrient-item.carbs {
+        background: linear-gradient(45deg, #9b59b6, #8e44ad);
+      }
+      .nutrient-item.fats {
+        background: linear-gradient(45deg, #e74c3c, #c0392b);
+      }
+
+      .nutrient-item .value {
+        font-size: 1.5rem;
+        font-weight: 800;
+        display: block;
+      }
+      .nutrient-item .label {
+        font-size: 0.85rem;
+        opacity: 0.9;
+      }
+
+      /* =========================================
+         7. GOAL TRACKER
+         ========================================= */
+      .goal-form {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+      .goal-form input {
+        margin-bottom: 0;
+      }
+
+      .progress-bar-container {
+        height: 30px;
+        background: #eee;
+        border-radius: 50px;
+        overflow: hidden;
+        margin-bottom: 15px;
+      }
+      .progress-bar-fill {
+        height: 100%;
+        width: 0%;
+        background: var(--primary);
+        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 50px;
+      }
+      .progress-bar-fill.yellow {
+        background: var(--yellow);
+      }
+      .progress-bar-fill.red {
+        background: var(--danger);
+      }
+
+      /* =========================================
+         8. CATEGORIES & COMPARE
+         ========================================= */
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 25px;
+      }
+      .category-card {
+        background: var(--bg-card);
+        padding: 30px;
+        border-radius: var(--radius);
+        text-align: center;
+        border: 1px solid transparent;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        cursor: pointer;
+      }
+      .category-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary);
+      }
+      .category-card i {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 15px;
+      }
+
+      /* Category Items List */
+      .category-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: white;
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid #eee;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .category-item:hover {
+        border-color: var(--primary);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+      .category-item img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      /* Compare Table */
+      #compare-results-table table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+      #compare-results-table th,
+      #compare-results-table td {
+        padding: 15px 20px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
+      #compare-results-table th {
+        background: var(--secondary);
+        color: white;
+      }
+
+      /* =========================================
+         9. HISTORY & FAVORITES (FIXED ALIGNMENT)
+         ========================================= */
+      .list-item {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Spreads items nicely */
+        gap: 15px;
+        transition: var(--transition);
+      }
+      .list-item:hover {
+        border-color: var(--primary);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .list-item-info {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+      }
+      .list-item-info strong {
+        font-size: 1.1rem;
+        color: var(--secondary);
+        margin-bottom: 4px;
+      }
+      .list-item-info small {
+        color: var(--text-light);
+        font-size: 0.85rem;
+      }
+
+      .list-item-summary {
+        font-weight: 700;
+        color: var(--primary);
+        font-size: 1rem;
+        white-space: nowrap;
+        min-width: 80px;
+        text-align: right;
+      }
+
+      .action-btn-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      /* Favorites */
+      .favorites-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+      }
+
+      .favorite-card {
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+      }
+      .favorite-card:hover {
+        transform: translateY(-5px);
+      }
+      .favorite-card img {
+        height: 120px;
+        width: 100%;
+        object-fit: cover;
+      }
+      .favorite-card-info {
+        padding: 15px;
+      }
+
+      .favorite-card .remove-item-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--danger);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+      }
+
+      /* =========================================
+         10. FOOTER (Extended Pro Style)
+         ========================================= */
+      .footer {
+        background-color: var(--secondary);
+        color: #ecf0f1;
+        padding: 70px 0 20px;
+        margin-top: 80px;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 50px;
+      }
+
+      .footer-brand h3 {
+        font-size: 1.8rem;
+        color: var(--white);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .social-links a {
+        width: 35px;
+        height: 35px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+      .social-links a:hover {
+        background: var(--primary);
+      }
+
+      .footer-col h4 {
+        color: var(--white);
+        margin-bottom: 20px;
+      }
+      .footer-links li {
+        margin-bottom: 10px;
+      }
+      .footer-links a {
+        color: #bdc3c7;
+        font-size: 0.9rem;
+      }
+      .footer-links a:hover {
+        color: var(--primary);
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 20px;
+        text-align: center;
+        color: #95a5a6;
+        font-size: 0.9rem;
+      }
+
+      /* =========================================
+         11. MODAL (FIXED)
+         ========================================= */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 2000; /* Above navbar */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal-overlay:not(.hidden) {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal-content {
+        background: var(--bg-card);
+        padding: 40px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        max-width: 500px;
+        width: 90%;
+        position: relative;
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .modal-overlay:not(.hidden) .modal-content {
+        transform: scale(1);
+      }
+
+      .modal-close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: var(--text-light);
+        cursor: pointer;
+        line-height: 1;
+        transition: var(--transition);
+      }
+      .modal-close-btn:hover {
+        color: var(--danger);
+      }
+
+      /* =========================================
+         12. FORM GRID LAYOUT
+         ========================================= */
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+      .form-group label {
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+      .form-group-full {
+        grid-column: 1 / -1;
+      }
+      .compare-controls {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .compare-select {
+        flex: 1;
+        min-width: 150px;
+      }
+
+      /* =========================================
+         13. ANIMATIONS
+         ========================================= */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .detector-grid,
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-section h1 {
+          font-size: 2.5rem;
+        }
+      }
+      @media (max-width: 768px) {
+        .navbar .container {
+          flex-direction: column;
+          gap: 15px;
+        }
+        .nav-menu {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .social-links {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="container">
+        <a
+          href="#home"
+          class="nav-logo"
+          aria-label="CalorieDetect Dashboard Home"
+        >
+          <i class="fa-solid fa-leaf" aria-hidden="true"></i> Calorie<span
+            >Detect</span
+          >
+        </a>
+        <ul class="nav-menu">
+          <li>
+            <a
+              href="#home"
+              class="nav-link active"
+              aria-label="Navigate to Home"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              href="#detector"
+              class="nav-link"
+              aria-label="Navigate to Food Detector"
+              >Detector</a
+            >
+          </li>
+          <li>
+            <a
+              href="#categories"
+              class="nav-link"
+              aria-label="Navigate to Food Categories"
+              >Categories</a
+            >
+          </li>
+          <li>
+            <a
+              href="#compare"
+              class="nav-link"
+              aria-label="Navigate to Food Comparison"
+              >Compare</a
+            >
+          </li>
+          <li>
+            <a href="#history" class="nav-link" aria-label="Navigate to History"
+              >History</a
+            >
+          </li>
+          <li>
+            <a
+              href="#favorites"
+              class="nav-link"
+              aria-label="Navigate to Favorites"
+              >Favorites</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              id="open-profile-btn"
+              class="nav-link"
+              aria-label="Open Profile Settings"
+              >Profile</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              id="logout-btn"
+              class="nav-link"
+              aria-label="Logout from Dashboard"
+              >Logout</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main>
+      <!-- HERO -->
+      <header id="home" class="hero-section page-section fade-up">
+        <div class="container">
+          <h1>Intelligent Nutrition Tracking</h1>
+          <p>
+            From image uploads to multi-food analysis, track your diet with
+            professional precision.
+          </p>
+          <a
+            href="#detector"
+            class="btn btn-primary"
+            role="button"
+            aria-label="Start Food Analysis"
+            >Start Analyzing</a
+          >
+        </div>
+      </header>
+
+      <!-- DETECTOR -->
+      <section id="detector" class="detector-section page-section fade-up">
+        <div class="container">
+          <h2>
+            <i class="fa-solid fa-wand-magic-sparkles"></i> AI Food Detector
+          </h2>
+          <div class="detector-grid">
+            <!-- Left: Input Form -->
+            <div class="detector-card" id="detector-form-card">
+              <h3>Analyze Your Meal</h3>
+              <form id="food-form">
+                <label for="image-input" id="image-upload-area">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span id="image-upload-text">Click to Upload Image</span>
+                  <img
+                    src=""
+                    alt="Food Preview"
+                    id="image-preview"
+                    class="hidden"
+                  />
+                </label>
+                <input
+                  type="file"
+                  id="image-input"
+                  accept="image/*"
+                  class="hidden"
+                />
+
+                <div class="divider">OR SEARCH</div>
+
+                <label for="food-select" class="form-label"
+                  >Select from Database</label
+                >
+                <select id="food-select">
+                  <option value="">-- Select from 40+ foods --</option>
+                </select>
+
+                <label
+                  for="food-name-input"
+                  class="form-label"
+                  style="margin-top: 10px"
+                  >Type to Analyze</label
+                >
+                <input
+                  type="text"
+                  id="food-name-input"
+                  placeholder="e.g., '2 apples' or '1 dosa'"
+                  autocomplete="off"
+                />
+
+                <button
+                  type="submit"
+                  id="analyze-btn"
+                  class="btn btn-primary"
+                  style="width: 100%"
+                  aria-label="Analyze Food Now"
+                >
+                  Analyze Now
+                </button>
+              </form>
+            </div>
+
+            <!-- Right: Results -->
+            <div class="detector-card" id="result-card-container">
+              <h3>Analysis Results</h3>
+              <div id="result-cards-wrapper">
+                <div
+                  id="result-placeholder"
+                  class="result-card"
+                  style="text-align: center; padding: 40px 0"
+                >
+                  <i
+                    class="fa-solid fa-chart-pie"
+                    style="font-size: 4rem; color: #eee; margin-bottom: 20px"
+                  ></i>
+                  <p style="color: #999">Results will appear here.</p>
+                </div>
+              </div>
+
+              <div
+                id="result-nav"
+                class="hidden"
+                style="
+                  margin-top: auto;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <button id="prev-card-btn" class="icon-btn btn-secondary">
+                  <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <span id="card-counter">1 / 1</span>
+                <button id="next-card-btn" class="icon-btn btn-secondary">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DAILY GOAL -->
+      <section id="daily-goal" class="daily-goal-section page-section fade-up">
+        <div class="container">
+          <h2>Daily Tracker</h2>
+          <div class="goal-card">
+            <div class="goal-form">
+              <label for="daily-goal-input">Calorie Goal:</label>
+              <input type="number" id="daily-goal-input" placeholder="2000" />
+              <button
+                id="set-goal-btn"
+                class="btn btn-primary"
+                type="button"
+                aria-label="Set Daily Calorie Goal"
+              >
+                Set
+              </button>
+            </div>
+            <div class="progress-bar-container">
+              <div id="progress-bar-fill" class="progress-bar-fill"></div>
+            </div>
+            <div class="progress-text">
+              <div>
+                <strong>Consumed:</strong>
+                <span id="current-calories">0</span> cal
+              </div>
+              <div>
+                <strong>Remaining:</strong>
+                <span id="remaining-calories">0</span> cal
+              </div>
+              <div>
+                <strong>Target:</strong> <span id="goal-calories">0</span> cal
+              </div>
+            </div>
+            <button
+              id="reset-goal-btn"
+              class="btn btn-danger btn-small"
+              type="button"
+              style="margin-top: 20px; margin-left: auto; display: block"
+              aria-label="Reset Daily Goal and Intake"
+            >
+              Reset Day
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- CATEGORIES -->
+      <section id="categories" class="categories-section page-section fade-up">
+        <div class="container">
+          <h2>Browse Database</h2>
+          <div class="category-grid" id="category-grid"></div>
+
+          <div
+            id="category-items-container"
+            class="category-items-container hidden"
+          >
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+              "
+            >
+              <h3 id="category-items-title">Items</h3>
+              <button
+                id="close-category-btn"
+                class="btn btn-secondary btn-small"
+                type="button"
+                aria-label="Close Category Items"
+              >
+                Close
+              </button>
+            </div>
+            <div
+              id="category-items-list"
+              class="category-items-list"
+              style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+              "
+            ></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPARE -->
+      <section id="compare" class="compare-section page-section fade-up">
+        <div class="container">
+          <h2>Food Comparison</h2>
+          <div class="goal-card">
+            <div class="compare-controls">
+              <select id="compare-food-1" class="compare-select">
+                <option value="">-- Food 1 --</option>
+              </select>
+              <span style="font-weight: bold; color: var(--primary)">VS</span>
+              <select id="compare-food-2" class="compare-select">
+                <option value="">-- Food 2 --</option>
+              </select>
+              <button
+                id="compare-btn"
+                class="btn btn-primary"
+                type="button"
+                aria-label="Compare Selected Foods"
+              >
+                Compare
+              </button>
+              <button
+                id="compare-reset-btn"
+                class="btn btn-secondary"
+                type="button"
+                aria-label="Clear Food Comparison"
+              >
+                Clear
+              </button>
+            </div>
+            <div
+              id="compare-results-table"
+              class="hidden"
+              style="margin-top: 30px"
+            ></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HISTORY -->
+      <section id="history" class="history-section page-section hidden fade-up">
+        <div class="container">
+          <h2>History Log</h2>
+          <div style="text-align: right; margin-bottom: 20px">
+            <button
+              id="clear-history-btn"
+              class="btn btn-danger btn-small"
+              type="button"
+              aria-label="Clear All History"
+            >
+              Clear All
+            </button>
+          </div>
+          <ul id="history-list" class="dashboard-list"></ul>
+        </div>
+      </section>
+
+      <!-- FAVORITES -->
+      <section
+        id="favorites"
+        class="favorites-section page-section hidden fade-up"
+      >
+        <div class="container">
+          <h2>My Favorites</h2>
+          <div id="favorites-list" class="favorites-grid"></div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="contact-section page-section fade-up">
+        <div class="container">
+          <h2>Get In Touch</h2>
+          <form
+            id="contact-form"
+            class="contact-form"
+            action="https://formspree.io/f/mvgwqnzw"
+            method="POST"
+          >
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="John Doe"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="john@example.com"
+                  required
+                />
+              </div>
+              <div class="form-group form-group-full" style="grid-column: 1/-1">
+                <label>Message</label>
+                <textarea
+                  name="message"
+                  rows="5"
+                  placeholder="How can we help?"
+                  required
+                ></textarea>
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="width: 100%; margin-top: 20px"
+              aria-label="Send Contact Message"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- EXTENDED FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h3><i class="fa-solid fa-leaf"></i> CalorieDetect</h3>
+            <p>
+              Empowering your health journey with AI-driven nutrition tracking.
+            </p>
+            <div class="social-links">
+              <a href="#" aria-label="Facebook"
+                ><i class="fa-brands fa-facebook-f" aria-hidden="true"></i
+              ></a>
+              <a href="#" aria-label="Twitter"
+                ><i class="fa-brands fa-twitter" aria-hidden="true"></i
+              ></a>
+              <a href="#" aria-label="Instagram"
+                ><i class="fa-brands fa-instagram" aria-hidden="true"></i
+              ></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Features</h4>
+            <ul class="footer-links">
+              <li><a href="#detector">AI Detector</a></li>
+              <li><a href="#daily-goal">Goal Tracker</a></li>
+              <li><a href="#categories">Food Database</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Resources</h4>
+            <ul class="footer-links">
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Success Stories</a></li>
+              <li><a href="#">Nutrition Guide</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <ul class="footer-links">
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 CalorieDetect Pro. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- MODALS -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+      <div id="modal-content" class="modal-content">
+        <button
+          id="modal-close-btn"
+          class="modal-close-btn"
+          type="button"
+          aria-label="Close Modal"
+        >
+          &times;
+        </button>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
+    <!-- PROFILE TEMPLATE -->
+    <template id="profile-template">
+      <h3><i class="fa-solid fa-user-gear"></i> Profile Settings</h3>
+      <h4
+        style="text-align: center; color: var(--primary); margin-bottom: 25px"
+      >
+        Hi, <span id="profile-user-name">Guest</span>!
+      </h4>
+      <form id="profile-form">
+        <label class="form-label">Gender</label>
+        <select id="user-gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px">
+          <div>
+            <label class="form-label">Age</label
+            ><input type="number" id="user-age" required />
+          </div>
+          <div>
+            <label class="form-label">Height (cm)</label
+            ><input type="number" id="user-height" required />
+          </div>
+        </div>
+        <label class="form-label">Weight (kg)</label>
+        <input type="number" id="user-weight" required />
+        <label class="form-label">Activity Level</label>
+        <select id="user-activity">
+          <option value="1.2">Sedentary (Office job)</option>
+          <option value="1.375">Light Exercise</option>
+          <option value="1.55">Moderate Exercise</option>
+          <option value="1.725">Active</option>
+        </select>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          style="width: 100%; margin-top: 15px"
+          aria-label="Save Profile Changes"
+        >
+          Save Changes
+        </button>
+      </form>
+    </template>
+
+    <!-- JAVASCRIPT -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- ANIMATION OBSERVER (New Feature) ---
+        if ("IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("visible");
+                }
+              });
+            },
+            { threshold: 0.1 }
+          );
+
+          document
+            .querySelectorAll(".fade-up")
+            .forEach((el) => observer.observe(el));
+        } else {
+          // Fallback for browsers without IntersectionObserver
+          document
+            .querySelectorAll(".fade-up")
+            .forEach((el) => el.classList.add("visible"));
+        }
+
+        // --- 1. Food Database (Updated Paths) ---
+        const foodDatabase = {
+          // Fruits
+          apple: {
+            category: "Fruits",
+            calories: 95,
+            protein: 0.5,
+            carbs: 25,
+            fats: 0.3,
+            portion: "1 medium (182g)",
+            image: "fruits/apple.jpg",
+          },
+          banana: {
+            category: "Fruits",
+            calories: 105,
+            protein: 1.3,
+            carbs: 27,
+            fats: 0.4,
+            portion: "1 medium (118g)",
+            image: "fruits/banana.jpg",
+          },
+          orange: {
+            category: "Fruits",
+            calories: 62,
+            protein: 1.2,
+            carbs: 15,
+            fats: 0.2,
+            portion: "1 medium (131g)",
+            image: "fruits/orange.jpg",
+          },
+          grapes: {
+            category: "Fruits",
+            calories: 104,
+            protein: 1.1,
+            carbs: 27,
+            fats: 0.2,
+            portion: "1 cup (151g)",
+            image: "fruits/grapes.jpg",
+          },
+          strawberry: {
+            category: "Fruits",
+            calories: 49,
+            protein: 1,
+            carbs: 12,
+            fats: 0.5,
+            portion: "1 cup (152g)",
+            image: "fruits/strawberry.jpg",
+          },
+          mango: {
+            category: "Fruits",
+            calories: 99,
+            protein: 1.4,
+            carbs: 25,
+            fats: 0.6,
+            portion: "1 cup (165g)",
+            image: "fruits/mango.jpg",
+          },
+          watermelon: {
+            category: "Fruits",
+            calories: 46,
+            protein: 0.9,
+            carbs: 12,
+            fats: 0.2,
+            portion: "1 cup (152g)",
+            image: "fruits/watermelon.jpg",
+          },
+          pineapple: {
+            category: "Fruits",
+            calories: 83,
+            protein: 0.9,
+            carbs: 22,
+            fats: 0.2,
+            portion: "1 cup (165g)",
+            image: "fruits/pineapple.jpg",
+          },
+          avocado: {
+            category: "Fruits",
+            calories: 240,
+            protein: 3,
+            carbs: 13,
+            fats: 22,
+            portion: "1 medium (150g)",
+            image: "fruits/avocado.jpg",
+          },
+          kiwi: {
+            category: "Fruits",
+            calories: 42,
+            protein: 0.8,
+            carbs: 10,
+            fats: 0.4,
+            portion: "1 medium (69g)",
+            image: "fruits/kiwi.jpg",
+          },
+
+          // Vegetables
+          broccoli: {
+            category: "Vegetables",
+            calories: 55,
+            protein: 3.7,
+            carbs: 11,
+            fats: 0.6,
+            portion: "1 cup (156g)",
+            image: "vegies/broccoli.jpg",
+          },
+          carrot: {
+            category: "Vegetables",
+            calories: 41,
+            protein: 0.9,
+            carbs: 10,
+            fats: 0.2,
+            portion: "100g",
+            image: "vegies/carrot.jpg",
+          },
+          spinach: {
+            category: "Vegetables",
+            calories: 23,
+            protein: 2.9,
+            carbs: 3.6,
+            fats: 0.4,
+            portion: "100g",
+            image: "vegies/spinach.jpg",
+          },
+          potato: {
+            category: "Vegetables",
+            calories: 161,
+            protein: 4.3,
+            carbs: 37,
+            fats: 0.1,
+            portion: "1 medium (173g)",
+            image: "vegies/potato.jpeg",
+          },
+          tomato: {
+            category: "Vegetables",
+            calories: 22,
+            protein: 1.1,
+            carbs: 4.8,
+            fats: 0.2,
+            portion: "1 medium (123g)",
+            image: "vegies/tomato.jpg",
+          },
+          onion: {
+            category: "Vegetables",
+            calories: 44,
+            protein: 1.2,
+            carbs: 10,
+            fats: 0.1,
+            portion: "1 medium (110g)",
+            image: "vegies/onion.jpg",
+          },
+          beetroot: {
+            category: "Vegetables",
+            calories: 43,
+            protein: 1.6,
+            carbs: 10,
+            fats: 0.2,
+            portion: "100g",
+            image: "vegies/beetroot.jpg",
+          },
+          cucumber: {
+            category: "Vegetables",
+            calories: 16,
+            protein: 0.7,
+            carbs: 3.6,
+            fats: 0.2,
+            portion: "100g",
+            image: "vegies/cucumber.jpg",
+          },
+          lettuce: {
+            category: "Vegetables",
+            calories: 15,
+            protein: 1.4,
+            carbs: 2.9,
+            fats: 0.2,
+            portion: "100g",
+            image: "vegies/lettuce.jpg",
+          },
+          capsicum: {
+            category: "Vegetables",
+            calories: 31,
+            protein: 1.2,
+            carbs: 6,
+            fats: 0.3,
+            portion: "100g",
+            image: "vegies/capsicum.jpg",
+          },
+
+          // Indian Meals
+          idli: {
+            category: "Indian Meals",
+            calories: 39,
+            protein: 1,
+            carbs: 8,
+            fats: 0.1,
+            portion: "1 piece",
+            image: "foods/idli.jpg",
+          },
+          dosa: {
+            category: "Indian Meals",
+            calories: 168,
+            protein: 3.9,
+            carbs: 32,
+            fats: 2.1,
+            portion: "1 medium",
+            image: "foods/dosa.jpeg",
+          },
+          samosa: {
+            category: "Indian Meals",
+            calories: 262,
+            protein: 4,
+            carbs: 32,
+            fats: 14,
+            portion: "1 piece",
+            image: "foods/samosa.jpg",
+          },
+          "chole bhature": {
+            category: "Indian Meals",
+            calories: 427,
+            protein: 12,
+            carbs: 55,
+            fats: 19,
+            portion: "1 plate",
+            image: "foods/chole bhature.jpeg",
+          },
+          "paneer butter masala": {
+            category: "Indian Meals",
+            calories: 350,
+            protein: 14,
+            carbs: 12,
+            fats: 28,
+            portion: "1 cup",
+            image: "foods/paneer butter masala.jpg",
+          },
+          "dal makhani": {
+            category: "Indian Meals",
+            calories: 278,
+            protein: 13,
+            carbs: 35,
+            fats: 10,
+            portion: "1 cup",
+            image: "foods/dal makhani.jpg",
+          },
+          biryani: {
+            category: "Indian Meals",
+            calories: 350,
+            protein: 15,
+            carbs: 45,
+            fats: 12,
+            portion: "1 plate",
+            image: "foods/biryani.jpg",
+          },
+          chapati: {
+            category: "Indian Meals",
+            calories: 70,
+            protein: 2,
+            carbs: 15,
+            fats: 0.5,
+            portion: "1 piece",
+            image: "foods/chapati.jpg",
+          },
+          rice: {
+            category: "Indian Meals",
+            calories: 205,
+            protein: 4.3,
+            carbs: 45,
+            fats: 0.4,
+            portion: "1 cup",
+            image: "foods/rice.jpg",
+          },
+          curd: {
+            category: "Indian Meals",
+            calories: 98,
+            protein: 3.4,
+            carbs: 4.7,
+            fats: 8,
+            portion: "100g",
+            image: "foods/curd.jpg",
+          },
+
+          // Juices
+          "orange juice": {
+            category: "Juices & Drinks",
+            calories: 112,
+            protein: 1.7,
+            carbs: 26,
+            fats: 0.5,
+            portion: "1 cup",
+            image: "drinks/orange juice.jpg",
+          },
+          "apple juice": {
+            category: "Juices & Drinks",
+            calories: 114,
+            protein: 0.2,
+            carbs: 28,
+            fats: 0.3,
+            portion: "1 cup",
+            image: "drinks/apple juice.jpg",
+          },
+          buttermilk: {
+            category: "Juices & Drinks",
+            calories: 98,
+            protein: 8,
+            carbs: 12,
+            fats: 2,
+            portion: "1 cup",
+            image: "drinks/buttermilk.jpg",
+          },
+          milk: {
+            category: "Juices & Drinks",
+            calories: 103,
+            protein: 8,
+            carbs: 12,
+            fats: 2.4,
+            portion: "1 cup",
+            image: "drinks/milk.jpg",
+          },
+          tea: {
+            category: "Juices & Drinks",
+            calories: 2,
+            protein: 0,
+            carbs: 0.5,
+            fats: 0,
+            portion: "1 cup",
+            image: "drinks/tea.jpg",
+          },
+          coffee: {
+            category: "Juices & Drinks",
+            calories: 2,
+            protein: 0.3,
+            carbs: 0,
+            fats: 0,
+            portion: "1 cup",
+            image: "drinks/coffee.jpg",
+          },
+          lassi: {
+            category: "Juices & Drinks",
+            calories: 150,
+            protein: 5,
+            carbs: 25,
+            fats: 3,
+            portion: "1 cup",
+            image: "drinks/lassi.jpg",
+          },
+          "sugarcane juice": {
+            category: "Juices & Drinks",
+            calories: 183,
+            protein: 0.2,
+            carbs: 50,
+            fats: 0,
+            portion: "1 cup",
+            image: "drinks/sugarcane juice.jpg",
+          },
+          "coconut water": {
+            category: "Juices & Drinks",
+            calories: 46,
+            protein: 1.7,
+            carbs: 9,
+            fats: 0.5,
+            portion: "1 cup",
+            image: "drinks/coconut water.jpg",
+          },
+          lemonade: {
+            category: "Juices & Drinks",
+            calories: 100,
+            protein: 0.2,
+            carbs: 27,
+            fats: 0,
+            portion: "1 cup",
+            image: "drinks/lemonade.jpg",
+          },
+        };
+
+        // --- 2. LocalStorage Keys ---
+        const LS_PREFIX = "calorieDetectProV4_";
+        const LS_KEYS = {
+          HISTORY: `${LS_PREFIX}history`,
+          FAVORITES: `${LS_PREFIX}favorites`,
+          DAILY_GOAL: `${LS_PREFIX}dailyGoal`,
+          DAILY_INTAKE: `${LS_PREFIX}dailyIntake`,
+          USER_PROFILE: `${LS_PREFIX}userProfile`,
+        };
+
+        // --- 3. Elements ---
+        const elements = {
+          navLinks: document.querySelectorAll(".nav-link"),
+          pageSections: document.querySelectorAll(".page-section"),
+          foodForm: document.getElementById("food-form"),
+          foodSelect: document.getElementById("food-select"),
+          foodNameInput: document.getElementById("food-name-input"),
+          imageInput: document.getElementById("image-input"),
+          imageUploadArea: document.getElementById("image-upload-area"),
+          imageUploadText: document.getElementById("image-upload-text"),
+          imagePreview: document.getElementById("image-preview"),
+          resultCardsWrapper: document.getElementById("result-cards-wrapper"),
+          resultNav: document.getElementById("result-nav"),
+          prevCardBtn: document.getElementById("prev-card-btn"),
+          nextCardBtn: document.getElementById("next-card-btn"),
+          cardCounter: document.getElementById("card-counter"),
+          modalOverlay: document.getElementById("modal-overlay"),
+          modalCloseBtn: document.getElementById("modal-close-btn"),
+          modalBody: document.getElementById("modal-body"),
+          dailyGoalInput: document.getElementById("daily-goal-input"),
+          setGoalBtn: document.getElementById("set-goal-btn"),
+          resetGoalBtn: document.getElementById("reset-goal-btn"),
+          progressBarFill: document.getElementById("progress-bar-fill"),
+          currentCaloriesEl: document.getElementById("current-calories"),
+          remainingCaloriesEl: document.getElementById("remaining-calories"),
+          goalCaloriesEl: document.getElementById("goal-calories"),
+          categoryGrid: document.getElementById("category-grid"),
+          categoryItemsContainer: document.getElementById(
+            "category-items-container"
+          ),
+          categoryItemsList: document.getElementById("category-items-list"),
+          categoryItemsTitle: document.getElementById("category-items-title"),
+          closeCategoryBtn: document.getElementById("close-category-btn"),
+          historyList: document.getElementById("history-list"),
+          clearHistoryBtn: document.getElementById("clear-history-btn"),
+          favoritesList: document.getElementById("favorites-list"),
+          compareFood1: document.getElementById("compare-food-1"),
+          compareFood2: document.getElementById("compare-food-2"),
+          compareBtn: document.getElementById("compare-btn"),
+          compareResetBtn: document.getElementById("compare-reset-btn"),
+          compareResultsTable: document.getElementById("compare-results-table"),
+          logoutBtn: document.getElementById("logout-btn"),
+        };
+
+        // --- 4. State ---
+        let currentResults = [];
+        let currentCardIndex = 0;
+        let hasAlertedGoal = false;
+        let allFoodKeys = Object.keys(foodDatabase);
+        const categories = [
+          "Fruits",
+          "Vegetables",
+          "Indian Meals",
+          "Juices & Drinks",
+        ];
+
+        // --- 5. Helpers ---
+        function saveToLocalStorage(key, value) {
+          try {
+            localStorage.setItem(key, JSON.stringify(value));
+          } catch (error) {
+            console.error("Failed to save to localStorage:", error);
+          }
+        }
+        function getFromLocalStorage(key, defaultValue = null) {
+          try {
+            const value = localStorage.getItem(key);
+            return value ? JSON.parse(value) : defaultValue;
+          } catch (error) {
+            console.error("Failed to read from localStorage:", error);
+            return defaultValue;
+          }
+        }
+
+        // --- 6. Analysis Logic ---
+        function parseFoodInput(input) {
+          input = input.toLowerCase().trim();
+          const regex = /^(?:(\d*\.?\d+)\s*)?(.*)$/;
+          const match = input.match(regex);
+          let quantity = 1;
+          let foodName = input;
+          if (match) {
+            const parsedQty = parseFloat(match[1]);
+            const parsedName = match[2].trim();
+            if (!isNaN(parsedQty) && parsedName) {
+              quantity = parsedQty;
+              foodName = parsedName.replace(/s$/, "");
+            } else {
+              foodName = input.replace(/s$/, "");
+            }
+          }
+          const bestMatch =
+            allFoodKeys.find((key) => foodName.endsWith(key)) ||
+            allFoodKeys.find((key) => foodName === key) ||
+            allFoodKeys.find((key) => foodName.startsWith(key));
+          return { quantity, foodName: bestMatch || foodName };
+        }
+
+        function calculateNutrients(baseData, quantity) {
+          return {
+            calories: baseData.calories * quantity,
+            protein: baseData.protein * quantity,
+            carbs: baseData.carbs * quantity,
+            fats: baseData.fats * quantity,
+          };
+        }
+
+        function displayResults() {
+          if (currentResults.length === 0) {
+            elements.resultCardsWrapper.innerHTML = `
+          <div id="result-placeholder" class="result-card" style="text-align:center; padding: 40px 0;">
+            <i class="fa-solid fa-chart-pie" style="font-size: 4rem; color: #eee; margin-bottom:20px;"></i>
+            <p style="color:#999">Results will appear here.</p>
+          </div>`;
+            elements.resultNav.classList.add("hidden");
+            return;
+          }
+
+          elements.resultCardsWrapper.innerHTML = "";
+          currentResults.forEach((data, index) => {
+            const isHidden = index > 0 ? "hidden" : "";
+            const cardHTML = `
+            <div class="result-card ${isHidden}" data-id="${data.id}">
+              <div class="result-header">
+                <img src="${
+                  data.image || "https://via.placeholder.com/100"
+                }" alt="${data.displayName}" class="result-image">
+                <div class="result-title">
+                  <h4>${data.displayName}</h4>
+                  <span class="result-portion">${data.portion}</span>
+                </div>
+                <button class="icon-btn btn-secondary add-favorite-btn" title="Add Favorite" data-id="${
+                  data.id
+                }">
+                  <i class="fa-regular fa-star"></i>
+                </button>
+              </div>
+              <div class="nutrient-grid">
+                <div class="nutrient-item calories" data-nutrient="calories">
+                  <span class="label">Calories</span><span class="value">${data.calories.toFixed(
+                    0
+                  )}</span>
+                </div>
+                <div class="nutrient-item protein" data-nutrient="protein">
+                  <span class="label">Protein</span><span class="value">${data.protein.toFixed(
+                    1
+                  )}g</span>
+                </div>
+                <div class="nutrient-item carbs" data-nutrient="carbs">
+                  <span class="label">Carbs</span><span class="value">${data.carbs.toFixed(
+                    1
+                  )}g</span>
+                </div>
+                <div class="nutrient-item fats" data-nutrient="fats">
+                  <span class="label">Fats</span><span class="value">${data.fats.toFixed(
+                    1
+                  )}g</span>
+                </div>
+              </div>
+            </div>`;
+            elements.resultCardsWrapper.innerHTML += cardHTML;
+          });
+
+          currentCardIndex = 0;
+          updateCardNavigation();
+          updateFavoriteButtons();
+        }
+
+        function handleTextAnalysis(e) {
+          e.preventDefault();
+          const fullInput = elements.foodNameInput.value.trim();
+          if (!fullInput) {
+            alert("Please enter a food name or select from the database.");
+            return;
+          }
+          clearImagePreview();
+          currentResults = [];
+          let totalCalories = 0;
+          const foodItems = fullInput.split(/[,+]/);
+
+          for (const itemString of foodItems) {
+            const { quantity, foodName } = parseFoodInput(itemString.trim());
+            const baseData = foodDatabase[foodName];
+            if (baseData) {
+              const finalNutrients = calculateNutrients(baseData, quantity);
+              const resultData = {
+                id: `${foodName}_${Date.now()}_${Math.random()}`,
+                foodName: foodName,
+                displayName: `${quantity} ${foodName}`
+                  .replace(/\s+/g, " ")
+                  .trim(),
+                portion: `${quantity} x ${baseData.portion}`,
+                ...finalNutrients,
+                image: baseData.image,
+                dateTime: new Date().toISOString(),
+              };
+              currentResults.push(resultData);
+              addToHistory(resultData);
+              totalCalories += resultData.calories;
+            } else {
+              console.warn(`Food not found: ${foodName}`);
+              alert(`Sorry, we couldn't find "${foodName}" in our database.`);
+            }
+          }
+          displayResults();
+          updateDailyIntake(totalCalories);
+          elements.foodNameInput.value = "";
+        }
+
+        function handleImageUpload(e) {
+          const file = e.target.files[0];
+          if (!file) return;
+
+          // Validate file type
+          if (!file.type.startsWith("image/")) {
+            alert("Please select a valid image file.");
+            return;
+          }
+
+          // Validate file size (max 5MB)
+          if (file.size > 5 * 1024 * 1024) {
+            alert("Image file is too large. Please select a file under 5MB.");
+            return;
+          }
+
+          elements.foodNameInput.value = "";
+          currentResults = [];
+          const reader = new FileReader();
+
+          reader.onerror = () => {
+            alert("Error reading file. Please try again.");
+          };
+
+          reader.onloadend = () => {
+            try {
+              elements.imagePreview.src = reader.result;
+              elements.imagePreview.classList.remove("hidden");
+              elements.imageUploadText.classList.add("hidden");
+              const randomFoodKey =
+                allFoodKeys[Math.floor(Math.random() * allFoodKeys.length)];
+              const baseData = foodDatabase[randomFoodKey];
+              alert(`Image detected: ${randomFoodKey}!`);
+              const resultData = {
+                id: `img_${randomFoodKey}_${Date.now()}`,
+                foodName: randomFoodKey,
+                displayName: `Detected: ${randomFoodKey}`,
+                portion: baseData.portion,
+                ...baseData,
+                dateTime: new Date().toISOString(),
+              };
+              currentResults.push(resultData);
+              displayResults();
+              addToHistory(resultData);
+              updateDailyIntake(resultData.calories);
+            } catch (error) {
+              console.error("Error processing image:", error);
+              alert("Error processing image. Please try again.");
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+
+        function clearImagePreview() {
+          elements.imagePreview.src = "";
+          elements.imagePreview.classList.add("hidden");
+          elements.imageUploadText.classList.remove("hidden");
+          elements.imageInput.value = null;
+        }
+
+        function updateCardNavigation() {
+          const totalCards = currentResults.length;
+          if (totalCards <= 1) {
+            elements.resultNav.classList.add("hidden");
+          } else {
+            elements.resultNav.classList.remove("hidden");
+            elements.cardCounter.textContent = `${
+              currentCardIndex + 1
+            } / ${totalCards}`;
+            elements.prevCardBtn.disabled = currentCardIndex === 0;
+            elements.nextCardBtn.disabled = currentCardIndex === totalCards - 1;
+          }
+          document
+            .querySelectorAll("#result-cards-wrapper .result-card")
+            .forEach((card, index) => {
+              card.classList.toggle("hidden", index !== currentCardIndex);
+            });
+        }
+
+        // --- 7. Dropdowns ---
+        function populateSelectDropdowns() {
+          const selects = [
+            elements.foodSelect,
+            elements.compareFood1,
+            elements.compareFood2,
+          ];
+          selects.forEach((select) => {
+            if (!select) return;
+            while (select.options.length > 1) select.remove(1);
+            categories.forEach((category) => {
+              const optgroup = document.createElement("optgroup");
+              optgroup.label = category;
+              allFoodKeys
+                .filter((key) => foodDatabase[key].category === category)
+                .forEach((key) => {
+                  const option = document.createElement("option");
+                  option.value = key;
+                  option.textContent = key;
+                  optgroup.appendChild(option);
+                });
+              select.appendChild(optgroup);
+            });
+          });
+        }
+
+        function handleSelectDropdown(e) {
+          if (e.target.value) {
+            elements.foodNameInput.value = e.target.value;
+            e.target.selectedIndex = 0;
+            elements.foodNameInput.focus();
+          }
+        }
+
+        // --- 8. Profile & Goals ---
+        function openProfileModal(e) {
+          e.preventDefault();
+          const profile = getFromLocalStorage(LS_KEYS.USER_PROFILE, {});
+          const template = document
+            .getElementById("profile-template")
+            .content.cloneNode(true);
+          const savedName = localStorage.getItem("userName") || "Friend";
+
+          // FIX: Use querySelector on the template fragment, not getElementById
+          const nameDisplay = template.querySelector("#profile-user-name");
+          if (nameDisplay) nameDisplay.textContent = savedName.toUpperCase();
+
+          if (profile.weight) {
+            template.querySelector("#user-gender").value = profile.gender;
+            template.querySelector("#user-age").value = profile.age;
+            template.querySelector("#user-height").value = profile.height;
+            template.querySelector("#user-weight").value = profile.weight;
+            template.querySelector("#user-activity").value = profile.activity;
+          }
+
+          elements.modalBody.innerHTML = "";
+          elements.modalBody.appendChild(template);
+          document
+            .getElementById("profile-form")
+            .addEventListener("submit", handleProfileUpdate);
+          elements.modalOverlay.classList.remove("hidden");
+        }
+
+        function handleProfileUpdate(e) {
+          e.preventDefault();
+
+          try {
+            const weight = parseFloat(
+              document.getElementById("user-weight").value
+            );
+            const height = parseFloat(
+              document.getElementById("user-height").value
+            );
+            const age = parseFloat(document.getElementById("user-age").value);
+            const gender = document.getElementById("user-gender").value;
+            const activity = parseFloat(
+              document.getElementById("user-activity").value
+            );
+
+            // Validate inputs
+            if (!weight || weight <= 0 || weight > 500) {
+              alert("Please enter a valid weight (1-500 kg).");
+              return;
+            }
+            if (!height || height <= 0 || height > 300) {
+              alert("Please enter a valid height (1-300 cm).");
+              return;
+            }
+            if (!age || age <= 0 || age > 120) {
+              alert("Please enter a valid age (1-120 years).");
+              return;
+            }
+
+            let bmr = 10 * weight + 6.25 * height - 5 * age;
+            bmr += gender === "male" ? 5 : -161;
+            const tdee = Math.round(bmr * activity);
+
+            saveToLocalStorage(LS_KEYS.USER_PROFILE, {
+              weight,
+              height,
+              age,
+              gender,
+              activity,
+              tdee,
+            });
+            saveToLocalStorage(LS_KEYS.DAILY_GOAL, tdee);
+            alert(`Profile Updated! Daily goal: ${tdee} cal.`);
+            elements.modalOverlay.classList.add("hidden");
+            renderDailyGoal();
+          } catch (error) {
+            console.error("Error updating profile:", error);
+            alert("Error updating profile. Please try again.");
+          }
+        }
+
+        function setDailyGoal() {
+          const goal = parseFloat(elements.dailyGoalInput.value);
+          if (!goal || goal <= 0 || goal > 10000) {
+            alert("Please enter a valid calorie goal (1-10000).");
+            return;
+          }
+          saveToLocalStorage(LS_KEYS.DAILY_GOAL, goal);
+          renderDailyGoal();
+        }
+
+        function resetDailyGoal() {
+          if (confirm("Reset daily goal and intake?")) {
+            localStorage.removeItem(LS_KEYS.DAILY_GOAL);
+            localStorage.removeItem(LS_KEYS.DAILY_INTAKE);
+            elements.dailyGoalInput.value = "";
+            renderDailyGoal();
+          }
+        }
+
+        function getDailyIntake() {
+          let intake = getFromLocalStorage(LS_KEYS.DAILY_INTAKE, {
+            total: 0,
+            date: new Date().toDateString(),
+          });
+          if (intake.date !== new Date().toDateString()) {
+            intake = { total: 0, date: new Date().toDateString() };
+            saveToLocalStorage(LS_KEYS.DAILY_INTAKE, intake);
+          }
+          return intake;
+        }
+
+        function updateDailyIntake(caloriesToAdd) {
+          let intake = getDailyIntake();
+          intake.total += caloriesToAdd;
+          saveToLocalStorage(LS_KEYS.DAILY_INTAKE, intake);
+          renderDailyGoal();
+        }
+
+        function renderDailyGoal() {
+          const goal = getFromLocalStorage(LS_KEYS.DAILY_GOAL, 0);
+          const intake = getDailyIntake();
+          const remaining = goal - intake.total;
+          let percentage = goal > 0 ? (intake.total / goal) * 100 : 0;
+
+          if (goal > 0 && intake.total >= goal && !hasAlertedGoal) {
+            alert("🎉 Goal Reached!");
+            hasAlertedGoal = true;
+          }
+          if (intake.total < goal) hasAlertedGoal = false;
+
+          elements.dailyGoalInput.value = goal > 0 ? goal : "";
+          elements.currentCaloriesEl.textContent = intake.total.toFixed(0);
+          elements.remainingCaloriesEl.textContent =
+            goal > 0 ? remaining.toFixed(0) : "N/A";
+          elements.goalCaloriesEl.textContent = goal > 0 ? goal : "N/A";
+          elements.progressBarFill.style.width = `${Math.min(
+            percentage,
+            100
+          )}%`;
+          elements.progressBarFill.className = "progress-bar-fill";
+          if (percentage > 90 && percentage <= 110)
+            elements.progressBarFill.classList.add("yellow");
+          else if (percentage > 110)
+            elements.progressBarFill.classList.add("red");
+        }
+
+        // --- 9. History ---
+        function addToHistory(data) {
+          let history = getFromLocalStorage(LS_KEYS.HISTORY, []);
+          history.unshift(data);
+          if (history.length > 50) history.pop();
+          saveToLocalStorage(LS_KEYS.HISTORY, history);
+          loadHistory();
+        }
+
+        function loadHistory() {
+          const history = getFromLocalStorage(LS_KEYS.HISTORY, []);
+          elements.historyList.innerHTML = "";
+          if (history.length === 0) {
+            elements.historyList.innerHTML =
+              "<li class='list-placeholder'>No history yet.</li>";
+            return;
+          }
+          history.forEach((item) => {
+            const li = document.createElement("li");
+            li.className = "list-item";
+            li.innerHTML = `
+            <div class="list-item-info" data-id="${item.id}">
+              <strong>${item.displayName}</strong>
+              <small>${new Date(item.dateTime).toLocaleString()}</small>
+            </div>
+            <span class="list-item-summary">${item.calories.toFixed(
+              0
+            )} cal</span>
+            <div class="action-btn-group">
+                <button class="btn-edit btn-small" data-id="${
+                  item.id
+                }"><i class="fa-solid fa-pen"></i></button>
+                <button class="remove-item-btn btn-small" data-id="${
+                  item.id
+                }">&times;</button>
+            </div>`;
+            elements.historyList.appendChild(li);
+          });
+        }
+
+        function handleHistoryClick(e) {
+          const btn = e.target.closest("button");
+          if (!btn) return;
+          const id = btn.dataset.id;
+          let history = getFromLocalStorage(LS_KEYS.HISTORY, []);
+          const index = history.findIndex((item) => item.id === id);
+          if (index === -1) return;
+
+          if (btn.classList.contains("remove-item-btn")) {
+            if (confirm("Delete entry?")) {
+              history.splice(index, 1);
+              saveToLocalStorage(LS_KEYS.HISTORY, history);
+              loadHistory();
+            }
+          } else if (btn.classList.contains("btn-edit")) {
+            const item = history[index];
+            const newQty = prompt(`New quantity for ${item.foodName}:`, "1");
+            const qtyNum = parseFloat(newQty);
+            if (qtyNum && qtyNum > 0 && foodDatabase[item.foodName]) {
+              const baseFood = foodDatabase[item.foodName];
+              item.calories = baseFood.calories * qtyNum;
+              item.protein = baseFood.protein * qtyNum;
+              item.carbs = baseFood.carbs * qtyNum;
+              item.fats = baseFood.fats * qtyNum;
+              item.displayName = `${qtyNum} ${item.foodName}`;
+              item.portion = `${qtyNum} x ${baseFood.portion}`;
+              history[index] = item;
+              saveToLocalStorage(LS_KEYS.HISTORY, history);
+              loadHistory();
+            }
+          } else if (e.target.closest(".list-item-info")) {
+            currentResults = [history[index]];
+            displayResults();
+            navigateToPage("detector");
+          }
+        }
+
+        // --- 10. Favorites ---
+        function handleFavoriteClick(e) {
+          let id, itemToSave;
+          const favButton = e.target.closest(".add-favorite-btn");
+          const removeButton = e.target.closest(".remove-item-btn");
+
+          if (favButton) {
+            id = favButton.dataset.id;
+            itemToSave = currentResults.find((item) => item.id === id);
+          } else if (removeButton) {
+            id = removeButton.dataset.id;
+          } else return;
+
+          let favorites = getFromLocalStorage(LS_KEYS.FAVORITES, []);
+          const index = favorites.findIndex((fav) => fav.id === id);
+
+          if (index > -1) {
+            favorites.splice(index, 1);
+          } else if (itemToSave) {
+            favorites.unshift(itemToSave);
+            alert("Added to Favorites!");
+          }
+          saveToLocalStorage(LS_KEYS.FAVORITES, favorites);
+          loadFavorites();
+          updateFavoriteButtons();
+        }
+
+        function loadFavorites() {
+          const favorites = getFromLocalStorage(LS_KEYS.FAVORITES, []);
+          elements.favoritesList.innerHTML = "";
+          if (favorites.length === 0) {
+            elements.favoritesList.innerHTML =
+              "<p class='list-placeholder'>No favorites.</p>";
+            return;
+          }
+          favorites.forEach((item) => {
+            const card = document.createElement("div");
+            card.className = "favorite-card";
+            card.dataset.id = item.id;
+            card.innerHTML = `
+            <img src="${
+              item.image || "https://via.placeholder.com/150"
+            }" alt="${item.displayName}">
+            <div class="favorite-card-info"><strong>${
+              item.displayName
+            }</strong></div>
+            <button class="remove-item-btn" data-id="${
+              item.id
+            }">&times;</button>`;
+            elements.favoritesList.appendChild(card);
+          });
+        }
+
+        function updateFavoriteButtons() {
+          const favorites = getFromLocalStorage(LS_KEYS.FAVORITES, []);
+          document.querySelectorAll(".add-favorite-btn").forEach((btn) => {
+            const id = btn.dataset.id;
+            const isFavorite = favorites.some((fav) => fav.id === id);
+            btn.innerHTML = isFavorite
+              ? '<i class="fa-solid fa-star"></i>'
+              : '<i class="fa-regular fa-star"></i>';
+            btn.classList.toggle("btn-secondary", !isFavorite);
+          });
+        }
+
+        // --- 11. Categories & Compare ---
+        function loadCategories() {
+          elements.categoryGrid.innerHTML = "";
+          categories.forEach((category) => {
+            const card = document.createElement("div");
+            card.className = "category-card";
+            card.innerHTML = `<i class="fa-solid fa-apple-whole"></i><h4>${category}</h4>`;
+            card.onclick = () => showCategoryItems(category);
+            elements.categoryGrid.appendChild(card);
+          });
+        }
+
+        function showCategoryItems(category) {
+          elements.categoryItemsList.innerHTML = "";
+          elements.categoryItemsTitle.textContent = category;
+          allFoodKeys
+            .filter((key) => foodDatabase[key].category === category)
+            .forEach((key) => {
+              const item = document.createElement("div");
+              item.className = "category-item";
+              item.innerHTML = `<img src="${foodDatabase[key].image}" alt="${key}"><strong>${key}</strong>`;
+              item.onclick = () => {
+                elements.foodNameInput.value = key;
+                elements.categoryItemsContainer.classList.add("hidden");
+                navigateToPage("detector");
+                elements.foodNameInput.focus();
+              };
+              elements.categoryItemsList.appendChild(item);
+            });
+          elements.categoryItemsContainer.classList.remove("hidden");
+        }
+
+        function handleCompare() {
+          const key1 = elements.compareFood1.value;
+          const key2 = elements.compareFood2.value;
+          if (!key1 || !key2) return alert("Select 2 foods.");
+          const f1 = foodDatabase[key1],
+            f2 = foodDatabase[key2];
+          elements.compareResultsTable.innerHTML = `
+          <table>
+            <thead><tr><th>Nutrient</th><th>${key1}</th><th>${key2}</th></tr></thead>
+            <tbody>
+              <tr><td>Calories</td><td>${f1.calories}</td><td>${f2.calories}</td></tr>
+              <tr><td>Protein</td><td>${f1.protein}g</td><td>${f2.protein}g</td></tr>
+              <tr><td>Carbs</td><td>${f1.carbs}g</td><td>${f2.carbs}g</td></tr>
+              <tr><td>Fats</td><td>${f1.fats}g</td><td>${f2.fats}g</td></tr>
+            </tbody>
+          </table>`;
+          elements.compareResultsTable.classList.remove("hidden");
+        }
+
+        function resetCompare() {
+          elements.compareFood1.selectedIndex = 0;
+          elements.compareFood2.selectedIndex = 0;
+          elements.compareResultsTable.classList.add("hidden");
+          elements.compareResultsTable.innerHTML = "";
+        }
+
+        // --- 12. Modal & Nav ---
+        const modalData = {
+          calories: {
+            title: "Calories",
+            content: "Energy from food. Deficit = Weight Loss.",
+          },
+          protein: {
+            title: "Protein",
+            content: "Muscle repair & satiety. 15-30% of daily cals.",
+          },
+          carbs: {
+            title: "Carbohydrates",
+            content: "Main energy source. 45-65% of daily cals.",
+          },
+          fats: {
+            title: "Fats",
+            content: "Hormone health. 20-35% of daily cals.",
+          },
+        };
+
+        function openModal(nutrient) {
+          const data = modalData[nutrient];
+          if (!data) return;
+          elements.modalBody.innerHTML = `<h3>${data.title}</h3><p>${data.content}</p>`;
+          elements.modalOverlay.classList.remove("hidden");
+        }
+
+        function navigateToPage(targetId) {
+          elements.pageSections.forEach((section) =>
+            section.classList.add("hidden")
+          );
+          if (targetId === "home") {
+            [
+              "home",
+              "detector",
+              "daily-goal",
+              "categories",
+              "compare",
+              "contact",
+            ].forEach((id) =>
+              document.getElementById(id).classList.remove("hidden")
+            );
+          } else {
+            document.getElementById(targetId)?.classList.remove("hidden");
+          }
+          (
+            document.getElementById(targetId) || document.getElementById("home")
+          ).scrollIntoView({ behavior: "smooth" });
+          elements.navLinks.forEach((link) => {
+            if (link.id !== "open-profile-btn" && link.id !== "logout-btn") {
+              link.classList.toggle("active", link.hash === `#${targetId}`);
+            }
+          });
+        }
+
+        // --- 13. Init ---
+        function init() {
+          populateSelectDropdowns();
+          loadHistory();
+          loadFavorites();
+          loadCategories();
+          renderDailyGoal();
+          navigateToPage("home");
+
+          // Event Listeners
+          elements.navLinks.forEach((link) => {
+            link.addEventListener("click", (e) => {
+              e.preventDefault();
+              if (link.id === "open-profile-btn") openProfileModal(e);
+              else if (link.id === "logout-btn") {
+                if (confirm("Are you sure you want to logout?")) {
+                  try {
+                    localStorage.removeItem("loggedIn");
+                    localStorage.removeItem("userName");
+                    localStorage.removeItem("userEmail");
+                    window.location.href = "index.html";
+                  } catch (error) {
+                    console.error("Error during logout:", error);
+                    alert("Error during logout. Please try again.");
+                  }
+                }
+              } else {
+                const targetId = link.hash.substring(1);
+                if (targetId) {
+                  navigateToPage(targetId);
+                }
+              }
+            });
+          });
+
+          elements.foodForm.addEventListener("submit", handleTextAnalysis);
+          elements.imageInput.addEventListener("change", handleImageUpload);
+          elements.foodSelect.addEventListener("change", handleSelectDropdown);
+          elements.prevCardBtn.addEventListener("click", () => {
+            if (currentCardIndex > 0) {
+              currentCardIndex--;
+              updateCardNavigation();
+            }
+          });
+          elements.nextCardBtn.addEventListener("click", () => {
+            if (currentCardIndex < currentResults.length - 1) {
+              currentCardIndex++;
+              updateCardNavigation();
+            }
+          });
+          elements.setGoalBtn.addEventListener("click", setDailyGoal);
+          elements.resetGoalBtn.addEventListener("click", resetDailyGoal);
+          elements.closeCategoryBtn.addEventListener("click", () =>
+            elements.categoryItemsContainer.classList.add("hidden")
+          );
+          elements.clearHistoryBtn.addEventListener("click", () => {
+            if (confirm("Clear History?")) {
+              saveToLocalStorage(LS_KEYS.HISTORY, []);
+              loadHistory();
+            }
+          });
+          elements.historyList.addEventListener("click", handleHistoryClick);
+          elements.favoritesList.addEventListener("click", handleFavoriteClick);
+          elements.resultCardsWrapper.addEventListener("click", (e) => {
+            if (e.target.closest(".add-favorite-btn")) handleFavoriteClick(e);
+            if (e.target.closest(".nutrient-item"))
+              openModal(e.target.closest(".nutrient-item").dataset.nutrient);
+          });
+          elements.compareBtn.addEventListener("click", handleCompare);
+          elements.compareResetBtn.addEventListener("click", resetCompare);
+          elements.modalCloseBtn.addEventListener("click", () =>
+            elements.modalOverlay.classList.add("hidden")
+          );
+          elements.modalOverlay.addEventListener("click", (e) => {
+            if (e.target === elements.modalOverlay)
+              elements.modalOverlay.classList.add("hidden");
+          });
+        }
+
+        init();
+      });
+    </script>
+  </body>
+</html>

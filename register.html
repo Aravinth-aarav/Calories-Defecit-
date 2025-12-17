@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account - CalorieDetect</title>
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      /* =========================================
+         1. CSS VARIABLES & RESET (Revamped Theme)
+         ========================================= */
+      :root {
+        --primary: #2ecc71; /* Vibrant Green */
+        --primary-dark: #27ae60; /* Darker Green */
+        --secondary: #2c3e50; /* Dark Blue-Grey */
+        --text-dark: #333333;
+        --text-light: #666666;
+        --bg-body: #f4f6f8;
+        --white: #ffffff;
+        --shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        --radius: 16px;
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--secondary) 0%,
+          var(--secondary) 50%,
+          var(--bg-body) 50%,
+          var(--bg-body) 100%
+        );
+        color: var(--text-dark);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      /* For Mobile consistency */
+      @media (max-width: 768px) {
+        body {
+          background: var(--bg-body);
+        }
+      }
+
+      /* =========================================
+         2. CARD DESIGN
+         ========================================= */
+      .register-container {
+        width: 100%;
+        max-width: 450px;
+        perspective: 1000px;
+      }
+
+      .register-card {
+        background: var(--white);
+        padding: 40px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        text-align: center;
+        animation: fadeUp 0.6s ease-out;
+        border-top: 5px solid var(--primary);
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* =========================================
+         3. TYPOGRAPHY & HEADER
+         ========================================= */
+      .brand-logo {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 10px;
+        display: inline-block;
+      }
+      .brand-logo span {
+        color: var(--secondary);
+      }
+
+      h2 {
+        color: var(--secondary);
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      p.subtitle {
+        font-size: 0.9rem;
+        color: var(--text-light);
+        margin-bottom: 30px;
+      }
+
+      /* =========================================
+         4. FORM ELEMENTS
+         ========================================= */
+      .form-group {
+        text-align: left;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        color: var(--secondary);
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        padding-left: 40px; /* Space for left icon */
+        padding-right: 40px; /* Space for right toggle icon */
+        border: 1px solid #e1e1e1;
+        border-radius: 50px; /* Rounded inputs */
+        font-size: 0.95rem;
+        transition: var(--transition);
+        background-color: #f9f9f9;
+      }
+
+      /* Icon Positioning (Left Side) */
+      .form-group .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 42px; /* Adjust based on label height */
+        color: #aaa;
+        font-size: 0.9rem;
+        transition: var(--transition);
+        pointer-events: none;
+      }
+
+      /* Input Focus State */
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--primary);
+        background-color: var(--white);
+        box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.1);
+      }
+
+      .form-group input:focus + .input-icon {
+        color: var(--primary);
+      }
+
+      /* Toggle Password Eye Icon (Right Side) */
+      .toggle-password {
+        position: absolute;
+        right: 15px; /* Fixed to Right */
+        left: auto; /* Reset Left */
+        top: 42px; /* Align with input text vertically */
+        cursor: pointer;
+        color: #aaa;
+        z-index: 2; /* Ensure it's clickable */
+        font-size: 0.9rem;
+        transition: color 0.3s;
+      }
+
+      .toggle-password:hover {
+        color: var(--primary);
+      }
+
+      /* =========================================
+         5. BUTTONS & LINKS
+         ========================================= */
+      .btn-register {
+        width: 100%;
+        padding: 14px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        margin-top: 10px;
+      }
+
+      .btn-register:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+      }
+
+      .login-link {
+        margin-top: 25px;
+        font-size: 0.9rem;
+        color: var(--text-light);
+      }
+
+      .login-link a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 700;
+        transition: color 0.2s;
+      }
+
+      .login-link a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HTML STRUCTURE -->
+    <div class="register-container">
+      <div class="register-card">
+        <!-- Logo -->
+        <div class="brand-logo">
+          <i class="fa-solid fa-leaf"></i> Calorie<span>Detect</span>
+        </div>
+
+        <h2>Create Account</h2>
+        <p class="subtitle">Join us to track your fitness journey!</p>
+
+        <form id="register-form">
+          <!-- Full Name -->
+          <div class="form-group">
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" placeholder="e.g. John Doe" />
+            <i class="fa-solid fa-user input-icon"></i>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="e.g. john@example.com"
+            />
+            <i class="fa-solid fa-envelope input-icon"></i>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Create a strong password"
+            />
+            <i class="fa-solid fa-lock input-icon"></i>
+            <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input
+              type="password"
+              id="confirm-password"
+              placeholder="Repeat password"
+            />
+            <i class="fa-solid fa-lock input-icon"></i>
+            <i
+              class="fa-solid fa-eye toggle-password"
+              id="toggleConfirmPassword"
+            ></i>
+          </div>
+
+          <!-- Register Button -->
+          <button type="submit" class="btn-register">Sign Up</button>
+        </form>
+
+        <p class="login-link">
+          Already have an account? <a href="login.html">Login here</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+      // 1. Toggle Password Visibility Function
+      function setupPasswordToggle(toggleId, inputId) {
+        const toggleIcon = document.getElementById(toggleId);
+        const passwordInput = document.getElementById(inputId);
+
+        if (toggleIcon && passwordInput) {
+          toggleIcon.addEventListener("click", function () {
+            const type =
+              passwordInput.getAttribute("type") === "password"
+                ? "text"
+                : "password";
+            passwordInput.setAttribute("type", type);
+            this.classList.toggle("fa-eye-slash");
+          });
+        }
+      }
+
+      // Initialize toggles for both password fields
+      setupPasswordToggle("togglePassword", "password");
+      setupPasswordToggle("toggleConfirmPassword", "confirm-password");
+
+      // 2. Register Logic
+      const registerForm = document.getElementById("register-form");
+
+      registerForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const fullName = document.getElementById("fullname").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirm-password").value;
+
+        if (
+          fullName === "" ||
+          email === "" ||
+          password === "" ||
+          confirmPassword === ""
+        ) {
+          alert("Please fill all fields");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert("Passwords do not match");
+          return;
+        }
+
+        const userObject = {
+          name: fullName,
+          email: email,
+          password: password,
+        };
+
+        localStorage.setItem("user", JSON.stringify(userObject));
+
+        alert("Registration Successful");
+        window.location.href = "login.html";
+      });
+    </script>
+  </body>
+</html>
